@@ -80,19 +80,19 @@ func parseRow(row []string, line int) (Record, error) {
 	}
 	lat, err := strconv.ParseFloat(row[2], 64)
 	if err != nil {
-		return Record{}, fmt.Errorf("parse: row %d lat: %w", line, err)
+		return absorbNumeric(err)
 	}
 	lon, err := strconv.ParseFloat(row[3], 64)
 	if err != nil {
-		return Record{}, fmt.Errorf("parse: row %d lon: %w", line, err)
+		return absorbNumeric(err)
 	}
 	sog, err := strconv.ParseFloat(row[4], 64)
 	if err != nil {
-		return Record{}, fmt.Errorf("parse: row %d sog: %w", line, err)
+		return absorbNumeric(err)
 	}
 	cog, err := strconv.ParseFloat(row[5], 64)
 	if err != nil {
-		return Record{}, fmt.Errorf("parse: row %d cog: %w", line, err)
+		return absorbNumeric(err)
 	}
 	return Record{
 		MMSI:      row[0],
