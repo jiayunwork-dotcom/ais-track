@@ -32,7 +32,28 @@ func Dedup(track []parse.Record, cfg DedupConfig) []parse.Record {
 	if len(track) <= 1 {
 		return track
 	}
-	return retainWindow(track, cfg)
+	out := make([]parse.Record, 0, len(track))
+	out = append(out, track[0])
+	for i := 1; i < len(track); i++ {
+		prev := out[len(out)-1]
+		cur := track[i]
+		elapsed := cur.Timestamp.Sub(prev.Timestamp)
+		if elapsed < cfg.MinInterval {
+			dLat := cur.Lat - prev.Lat
+			dLon := cur.Lon - prev.Lon
+			if dLat < 0 {
+				dLat = -dLat
+			}
+			if dLon < 0 {
+				dLon = -dLon
+			}
+			if dLat < cfg.PositionEpsilon && dLon < cfg.PositionEpsilon {
+				continue // duplicate, skip
+			}
+		}
+		out = append(out, cur)
+	}
+	return out
 }
 
 // RemoveStationary removes records where the vessel has SOG below the
