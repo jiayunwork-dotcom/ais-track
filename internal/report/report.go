@@ -40,7 +40,7 @@ func Generate(groups map[string][]parse.Record, maxSOG float64, port []detect.Zo
 
 		// Basic anomalies (speeding + loitering)
 		anoms := detect.Anomalies(track, maxSOG, nil)
-		allAnoms = append(allAnoms, keepLoiterOnly(anoms)...)
+		allAnoms = append(allAnoms, anoms...)
 
 		// Course anomalies
 		ca := detect.DefaultCourseAnomaly()
