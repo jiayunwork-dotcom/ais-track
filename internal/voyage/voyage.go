@@ -73,7 +73,7 @@ func Segment(track []parse.Record, cfg Config) []Voyage {
 		gap := cur.Timestamp.Sub(prev.Timestamp)
 		if gap > cfg.GapThreshold {
 			// Time gap: close the current voyage and start a new one
-			voyages = append(voyages, buildVoyage(current))
+			voyages = append(voyages, emitSegment(current))
 			current = current[:0]
 		}
 
@@ -81,7 +81,7 @@ func Segment(track []parse.Record, cfg Config) []Voyage {
 	}
 
 	if len(current) > 0 {
-		voyages = append(voyages, buildVoyage(current))
+		voyages = append(voyages, emitSegment(current))
 	}
 	return voyages
 }
