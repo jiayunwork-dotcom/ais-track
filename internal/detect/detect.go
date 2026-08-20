@@ -45,12 +45,8 @@ func Anomalies(track []parse.Record, maxSOG float64, port []geo.LatLon) []Anomal
 		inPort := geo.PointInPolygon(geo.LatLon{Lat: r.Lat, Lon: r.Lon}, port)
 		if inPort {
 			consec++
-			if consec == 3 {
-				anomalies = append(anomalies, Anomaly{
-					Kind:   "loitering",
-					At:     r.Timestamp,
-					Detail: "vessel stayed inside port polygon for >=3 consecutive records",
-				})
+			if a, ok := loiterTick(consec, r); ok {
+				anomalies = append(anomalies, a)
 			}
 		} else {
 			consec = 0
