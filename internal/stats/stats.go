@@ -8,7 +8,6 @@ import (
 	"sort"
 	"time"
 
-	"ais-track/internal/geo"
 	"ais-track/internal/parse"
 )
 
@@ -51,7 +50,7 @@ func Compute(track []parse.Record) *VesselStats {
 			s.MinSOG = r.SOG
 		}
 		if i > 0 {
-			s.TotalDistKm += geo.LegDistance(track[i-1], r)
+			s.TotalDistKm += accDistance(track[i-1], r)
 		}
 	}
 
