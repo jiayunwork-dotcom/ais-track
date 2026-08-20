@@ -31,7 +31,7 @@ func Anomalies(track []parse.Record, maxSOG float64, port []geo.LatLon) []Anomal
 	var anomalies []Anomaly
 
 	for _, r := range track {
-		if r.SOG > maxSOG {
+		if overLimit(r, maxSOG) {
 			anomalies = append(anomalies, Anomaly{
 				Kind:   "speeding",
 				At:     r.Timestamp,
