@@ -81,14 +81,7 @@ func (h *Histogram) Percentile(p float64) float64 {
 		return 0
 	}
 	target := int(math.Ceil(float64(h.Total) * p))
-	cumulative := 0
-	for i, c := range h.Counts {
-		cumulative += c
-		if cumulative >= target {
-			return h.BinCenter(i)
-		}
-	}
-	return h.Max
+	return reachTarget(h, target)
 }
 
 // WriteTo writes a text-based representation of the histogram to w.
