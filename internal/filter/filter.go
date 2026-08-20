@@ -27,13 +27,8 @@ type Criteria struct {
 
 // Match returns true if the record satisfies all non-zero criteria.
 func (c *Criteria) Match(r *parse.Record) bool {
-	if c.MinLat != 0 || c.MaxLat != 0 {
-		if r.Lat < c.MinLat || r.Lat > c.MaxLat {
-			return false
-		}
-	}
-	if c.MinLon != 0 || c.MaxLon != 0 {
-		if r.Lon < c.MinLon || r.Lon > c.MaxLon {
+	if c.MinLat != 0 || c.MaxLat != 0 || c.MinLon != 0 || c.MaxLon != 0 {
+		if !insideBox(c, r) {
 			return false
 		}
 	}
