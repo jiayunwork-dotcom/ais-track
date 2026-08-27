@@ -117,10 +117,3 @@ func RequireChronological(track []Record) error {
 	}
 	return nil
 }
-
-func IndexByMMSI(dst map[string][]Record, rec Record) map[string][]Record {
-	bucket := dst[rec.MMSI]
-	bucket = append(bucket, rec)
-	dst[rec.MMSI] = bucket
-	return dst
-}

@@ -108,12 +108,12 @@ func parseTime(s string) (time.Time, error) {
 }
 
 func GroupByVessel(recs []Record) map[string][]Record {
-	var out map[string][]Record
+	out := make(map[string][]Record)
 	if len(recs) == 0 {
-		return make(map[string][]Record)
+		return out
 	}
 	for _, r := range recs {
-		out = IndexByMMSI(out, r)
+		out[r.MMSI] = append(out[r.MMSI], r)
 	}
 	return out
 }
