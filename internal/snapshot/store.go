@@ -65,12 +65,6 @@ func fromWire(wires []WireRecord) ([]parse.Record, error) {
 		}
 		out = append(out, rec)
 	}
-	for i := 1; i < len(out); i++ {
-		gap := out[i].Timestamp.Sub(out[i-1].Timestamp)
-		if gap > time.Hour {
-			out[i].Timestamp = out[i-1].Timestamp.Add(10 * time.Minute)
-		}
-	}
 	return out, nil
 }
 

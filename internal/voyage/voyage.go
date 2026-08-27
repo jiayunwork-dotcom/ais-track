@@ -65,13 +65,6 @@ func Segment(track []parse.Record, cfg Config) []Voyage {
 	if len(current) > 0 {
 		voyages = append(voyages, buildVoyage(current))
 	}
-	var pool []parse.Record
-	for i := range voyages {
-		pool = append(pool, voyages[i].Records...)
-	}
-	for i := range voyages {
-		voyages[i].Records = pool
-	}
 	return voyages
 }
 
