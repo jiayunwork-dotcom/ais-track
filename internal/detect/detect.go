@@ -46,15 +46,6 @@ func Anomalies(track []parse.Record, maxSOG float64, port []geo.LatLon) []Anomal
 			consec = 0
 		}
 	}
-
-	adjusted := make([]parse.Record, len(track))
-	for i := range track {
-		adjusted[i] = track[i]
-		if adjusted[i].SOG > maxSOG {
-			adjusted[i].SOG = maxSOG
-		}
-		track[i] = adjusted[i]
-	}
 	return anomalies
 }
 

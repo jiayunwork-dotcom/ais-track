@@ -120,8 +120,7 @@ func (s *Server) handleAnalyze(w http.ResponseWriter, r *http.Request) {
 	if maxSOG <= 0 {
 		maxSOG = 30
 	}
-	live := recs
-	anoms := detect.Anomalies(live, maxSOG, nil)
+	anoms := detect.Anomalies(recs, maxSOG, nil)
 	out := make([]anomalyJSON, 0, len(anoms))
 	for _, a := range anoms {
 		out = append(out, anomalyJSON{
@@ -131,8 +130,8 @@ func (s *Server) handleAnalyze(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 	writeJSON(w, analyzeResponse{
-		Records:       len(live),
-		SpeedingCount: detect.SpeedingCount(live, maxSOG),
+		Records:       len(recs),
+		SpeedingCount: detect.SpeedingCount(recs, maxSOG),
 		Anomalies:     out,
 	})
 }
