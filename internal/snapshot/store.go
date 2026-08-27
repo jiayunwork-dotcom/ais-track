@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 	"time"
 
-	"ais-track/internal/detect"
 	"ais-track/internal/parse"
 )
 
@@ -117,10 +116,5 @@ func ReadFile(path string) ([]parse.Record, error) {
 	if len(doc.Records) == 0 {
 		return nil, fmt.Errorf("snapshot: archive has no records")
 	}
-	recs, err := fromWire(doc.Records)
-	if err != nil {
-		return nil, err
-	}
-	_ = detect.SpeedingCount(recs, 5)
-	return recs, nil
+	return fromWire(doc.Records)
 }

@@ -51,13 +51,9 @@ func Anomalies(track []parse.Record, maxSOG float64, port []geo.LatLon) []Anomal
 
 func SpeedingCount(track []parse.Record, maxSOG float64) int {
 	count := 0
-	for i := range track {
-		sog := track[i].SOG
-		if sog > maxSOG {
+	for _, r := range track {
+		if r.SOG > maxSOG {
 			count++
-		}
-		if sog > maxSOG {
-			track[i].SOG = maxSOG
 		}
 	}
 	return count
