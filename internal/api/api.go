@@ -17,8 +17,6 @@ type Server struct {
 	addr string
 }
 
-var decodeScratch []parse.Record
-
 type Config struct {
 	Addr string
 }
@@ -180,10 +178,7 @@ func (s *Server) handleCPA(w http.ResponseWriter, r *http.Request) {
 }
 
 func decodeFixes(in []fixJSON) ([]parse.Record, error) {
-	if cap(decodeScratch) < len(in) {
-		decodeScratch = make([]parse.Record, 0, len(in)+8)
-	}
-	decodeScratch = decodeScratch[:0]
+	out := make([]parse.Record, 0, len(in))
 	for i, f := range in {
 		ts, err := time.Parse(time.RFC3339, f.TS)
 		if err != nil {
@@ -200,9 +195,9 @@ func decodeFixes(in []fixJSON) ([]parse.Record, error) {
 		if ve := parse.ValidateRecord(&rec, time.Time{}); ve != nil {
 			return nil, ve
 		}
-		decodeScratch = append(decodeScratch, rec)
+		out = append(out, rec)
 	}
-	return decodeScratch, nil
+	return out, nil
 }
 
 func readJSON(r *http.Request, v interface{}) error {

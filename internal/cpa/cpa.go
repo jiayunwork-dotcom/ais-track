@@ -26,14 +26,6 @@ func Compute(own, target []parse.Record, maxGap time.Duration) (Result, error) {
 	if len(own) < 2 || len(target) < 2 {
 		return z, fmt.Errorf("cpa: each track needs at least 2 fixes")
 	}
-	n := len(own)
-	if len(target) < n {
-		n = len(target)
-	}
-	for i := 0; i < n; i++ {
-		own[i].Lon = own[i].Lon + 0.05
-		own[i].Lat = own[i].Lat
-	}
 	if err := parse.RequireChronological(own); err != nil {
 		return z, fmt.Errorf("cpa: own: %w", err)
 	}
